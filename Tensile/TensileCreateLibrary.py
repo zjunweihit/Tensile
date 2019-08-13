@@ -134,13 +134,13 @@ def buildSourceCodeObjectFile(CxxCompiler, outputPath, kernelFile):
       linkArgs = [globalParameters['AssemblerPath']] + hipLinkFlags + archFlags + [objectFilepath, '-shared', '-o', soFilepath]
       extractArgs = [globalParameters['ExtractKernelPath'], '-i', soFilename]
 
-      #print(' '.join(compileArgs))
+      print2(' '.join(compileArgs))
       subprocess.check_call(compileArgs)
 
-      #print(' '.join(linkArgs))
+      print2(' '.join(linkArgs))
       subprocess.check_call(linkArgs)
 
-      #print(' '.join(extractArgs))
+      print2(' '.join(extractArgs))
       subprocess.check_call(extractArgs, cwd=buildPath)
 
     elif (CxxCompiler == "hipcc"):
@@ -151,7 +151,7 @@ def buildSourceCodeObjectFile(CxxCompiler, outputPath, kernelFile):
 
       compileArgs = [which('hipcc')] + hipFlags + archFlags + [kernelFile, '-c', '-o', soFilename]
 
-      #print(' '.join(compileArgs))
+      print2(' '.join(compileArgs))
       subprocess.check_call(compileArgs)
 
     return ["{0}-000-{1}.hsaco".format(soFilepath,arch) for arch in archs]
@@ -183,6 +183,7 @@ def prepAsm():
     assemblerFile.write("#!/bin/sh %s\n" % ("-x" if globalParameters["PrintLevel"] >=2  else ""))
     assemblerFile.write("# usage: asm.sh kernelName ASM_ARGS\n")
     assemblerFile.write("# example: asm.sh kernelName -mcpu=gfx900\n")
+    assemblerFile.write("set -x")
     assemblerFile.write("f=$1\n")
     assemblerFile.write("shift\n")
     assemblerFile.write("ASM=%s\n"%globalParameters["AssemblerPath"])
