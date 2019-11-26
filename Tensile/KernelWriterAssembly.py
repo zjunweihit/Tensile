@@ -1914,8 +1914,8 @@ class KernelWriterAssembly(KernelWriter):
         % (totalVgprs, self.endLine)
     kStr += "  wavefront_sgpr_count = %u // sgprs%s" \
         % (self.totalSgprs, self.endLine)
-    kStr += "  compute_pgm_rsrc1_vgprs = %u // floor((%u-1)/4)%s" \
-        % ( (totalVgprs-1)//4, totalVgprs, self.endLine)
+    kStr += "  compute_pgm_rsrc1_vgprs = %u // floor((%u-1)/8)%s" \
+        % ( (totalVgprs-1)//8, totalVgprs, self.endLine)
     kStr += "  compute_pgm_rsrc1_sgprs = %u // floor((%u-1)/8)%s" \
         % ( 1+(self.totalSgprs-1)//8, self.totalSgprs, self.endLine)
 
